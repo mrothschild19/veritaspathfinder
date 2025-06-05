@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veritas Course Recommendations</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE',
+                    }
+                }
+            },
+            darkMode: 'class'
+        }
+    </script>
+    <style>
+        .step-indicator {
+            transition: all 0.3s ease;
+        }
+        .step-indicator.active {
+            background-color: #5D5CDE;
+            color: white;
+        }
+        .step-indicator.completed {
+            background-color: #10B981;
+            color: white;
+        }
+        .course-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .course-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .dark .course-card:hover {
+            box-shadow: 0 10px 25px rgba(255,255,255,0.1);
+        }
+    </style>
+</head>
+<body class="bg-white dark:bg-gray-900 transition-colors duration-300">
+    <div class="min-h-screen">
+        <!-- Header -->
+        <header class="bg-primary text-white shadow-lg">
+            <div class="container mx-auto px-4 py-6">
+                <h1 class="text-3xl font-bold text-center">Veritas Learning Path</h1>
+                <p class="text-center mt-2 text-primary-100">Discover courses tailored to your interests and goals</p>
+            </div>
+        </header>
+
+        <!-- Progress Indicator -->
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-center mb-8">
+                <div class="flex items-center space-x-4">
+                    <div class="step-indicator w-10 h-10 rounded-full flex items-center justify-center border-2 border-gray-300 text-gray-500 font-semibold" data-step="1">1</div>
+                    <div class="w-12 h-1 bg-gray-300 rounded"></div>
+                    <div class="step-indicator w-10 h-10 rounded-full flex items-center justify-center border-2 border-gray-300 text-gray-500 font-semibold" data-step="2">2</div>
+                    <div class="w-12 h-1 bg-gray-300 rounded"></div>
+                    <div class="step-indicator w-10 h-10 rounded-full flex items-center justify-center border-2 border-gray-300 text-gray-500 font-semibold" data-step="3">3</div>
+                    <div class="w-12 h-1 bg-gray-300 rounded"></div>
+                    <div class="step-indicator w-10 h-10 rounded-full flex items-center justify-center border-2 border-gray-300 text-gray-500 font-semibold" data-step="4">4</div>
+                    <div class="w-12 h-1 bg-gray-300 rounded"></div>
+                    <div class="step-indicator w-10 h-10 rounded-full flex items-center justify-center border-2 border-gray-300 text-gray-500 font-semibold" data-step="5">5</div>
+                </div>
+            </div>
+
+            <!-- Onboarding Steps -->
+            <div class="max-w-2xl mx-auto">
+                
+                <!-- Step 1: Age Group -->
+                <div id="step-1" class="onboarding-step bg-gray-50 dark:bg-gray-800 rounded-lg p-8 shadow-md">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">What's your age group?</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <button class="age-option p-6 border-2 border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary hover:bg-primary hover:text-white transition-all duration-200 text-left" data-age="K-5">
+                            <div class="text-lg font-semibold">Elementary (K-5)</div>
+                            <div class="text-sm opacity-75">Ages 5-10</div>
+                        </button>
+                        <button class="age-option p-6 border-2 border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary hover:bg-primary hover:text-white transition-all duration-200 text-left" data-age="6-12">
+                            <div class="text-lg font-semibold">Middle/High School (6-12)</div>
+                            <div class="text-sm opacity-75">Ages 11-18</div>
+                        </button>
+                        <button class="age-option p-6 border-2 border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary hover:bg-primary hover:text-white transition-all duration-200 text-left" data-age="College">
+                            <div class="text-lg font-semibold">College</div>
+                            <div class="text-sm opacity-75">Ages 18-22</div>
+                        </button>
+                        <button class="age-option p-6 border-2 border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary hover:bg-primary hover:text-white transition-all duration-200 text-left" data-age="Adult">
+                            <div class="text-lg font-semibold">Adult Learner</div>
+                            <div class="text-sm opacity-75">22+ or lifelong learning</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Subject Interests -->
+                <div id="step-2" class="onboarding-step bg-gray-50 dark:bg-gray-800 rounded-lg p-8 shadow-md hidden">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">What subjects interest you most?</h2>
+                    <p class="text-center text-gray-600 dark:text-gray-400 mb-6">Select all that apply</p>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <button class="subject-option p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary transition-all duration-200 text-center" data-subject="technology">
+                            <div class="text-3xl mb-2">💻</div>
+                            <div class="font-semibold">Technology</div>
+                        </button>
+                        <button class="subject-option p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary transition-all duration-200 text-center" data-subject="science">
+                            <div class="text-3xl mb-2">🔬</div>
+                            <div class="font-semibold">Science</div>
+                        </button>
+                        <button class="subject-option p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary transition-all duration-200 text-center" data-subject="math">
+                            <div class="text-3xl mb-2">📊</div>
+                            <div class="font-semibold">Mathematics</div>
+                        </button>
+                        <button class="subject-option p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary transition-all duration-200 text-center" data-subject="life-skills">
+                            <div class="text-3xl mb-2">🎯</div>
+                            <div class="font-semibold">Life Skills</div>
+                        </button>
+                        <button class="subject-option p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary transition-all duration-200 text-center" data-subject="parenting">
+                            <div class="text-3xl mb-2">👨‍👩‍👧‍👦</div>
+                            <div class="font-semibold">Parenting</div>
+                        </button>
+                        <button class="subject-option p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary transition-all duration-200 text-center" data-subject="history">
+                            <div class="text-3xl mb-2">📚</div>
+                            <div class="font-semibold">History</div>
+                        </button>
+                        <button class="subject-option p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary transition-all duration-200 text-center" data-subject="health">
+                            <div class="text-3xl mb-2">🏥</div>
+                            <div class="font-semibold">Health</div>
+                        </button>
+                        <button class="subject-option p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary transition-all duration-200 text-center" data-subject="art-music">
+                            <div class="text-3xl mb-2">🎨</div>
+                            <div class="font-semibold">Art & Music</div>
+                        </button>
+                        <button class="subject-option p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary transition-all duration-200 text-center" data-subject="faith">
+                            <div class="text-3xl mb-2">✝️</div>
+                            <div class="font-semibold">Faith</div>
+                        </button>
+                    </div>
+                    <div class="mt-6 text-center">
+                        <button id="continue-step-2" class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors duration-200 disabled:opacity-50" disabled>
+                            Continue
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Learning Goals -->
+                <div id="step-3" class="onboarding-step bg-gray-50 dark:bg-gray-800 rounded-lg p-8 shadow-md hidden">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">What are your learning goals?</h2>
+                    <div class="space-y-4">
+                        <button class="goal-option w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary hover:bg-primary hover:text-white transition-all duration-200 text-left" data-goal="career">
+                            <div class="font-semibold">Career Development</div>
+                            <div class="text-sm opacity-75">Learn skills for work or professional growth</div>
+                        </button>
+                        <button class="goal-option w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary hover:bg-primary hover:text-white transition-all duration-200 text-left" data-goal="academic">
+                            <div class="font-semibold">Academic Learning</div>
+                            <div class="text-sm opacity-75">Support school curriculum or homeschooling</div>
+                        </button>
+                        <button class="goal-option w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary hover:bg-primary hover:text-white transition-all duration-200 text-left" data-goal="personal">
+                            <div class="font-semibold">Personal Interest</div>
+                            <div class="text-sm opacity-75">Explore topics I'm curious about</div>
+                        </button>
+                        <button class="goal-option w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary hover:bg-primary hover:text-white transition-all duration-200 text-left" data-goal="family">
+                            <div class="font-semibold">Family Learning</div>
+                            <div class="text-sm opacity-75">Learn together as a family</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 4A: Kids Questions (K-5 only) -->
+                <div id="step-4-kids" class="onboarding-step bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg p-8 shadow-md hidden">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">Let's Learn About You! 🌟</h2>
+                    <p class="text-center text-gray-600 dark:text-gray-400 mb-6">Answer as many questions as you'd like - they help us find the perfect courses for you!</p>
+                    
+                    <div class="space-y-6 max-h-96 overflow-y-auto">
+                        <!-- Question 1 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+                            <h3 class="text-lg font-semibold text-purple-600 dark:text-purple-400 mb-3">🎯 What's your favorite thing to do when you have free time?</h3>
+                            <textarea class="kids-answer w-full p-3 border-2 border-purple-200 dark:border-purple-600 rounded-lg text-base resize-none" 
+                                data-question="free-time" rows="2" 
+                                placeholder="Tell us what you love to do for fun!"></textarea>
+                        </div>
+
+                        <!-- Question 2 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+                            <h3 class="text-lg font-semibold text-blue-600 dark:text-blue-400 mb-3">🦸‍♀️ If you could have any superpower, what would it be, and why?</h3>
+                            <textarea class="kids-answer w-full p-3 border-2 border-blue-200 dark:border-blue-600 rounded-lg text-base resize-none" 
+                                data-question="superpower" rows="2" 
+                                placeholder="What amazing power would you choose?"></textarea>
+                        </div>
+
+                        <!-- Question 3 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+                            <h3 class="text-lg font-semibold text-green-600 dark:text-green-400 mb-3">📚 What's your favorite subject in school, and what do you like about it?</h3>
+                            <textarea class="kids-answer w-full p-3 border-2 border-green-200 dark:border-green-600 rounded-lg text-base resize-none" 
+                                data-question="favorite-subject" rows="2" 
+                                placeholder="Which school subject is the most fun?"></textarea>
+                        </div>
+
+                        <!-- Question 4 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+                            <h3 class="text-lg font-semibold text-yellow-600 dark:text-yellow-400 mb-3">💡 If you could invent anything, what would it be, and what would it do?</h3>
+                            <textarea class="kids-answer w-full p-3 border-2 border-yellow-200 dark:border-yellow-600 rounded-lg text-base resize-none" 
+                                data-question="invention" rows="2" 
+                                placeholder="What cool invention would you create?"></textarea>
+                        </div>
+
+                        <!-- Question 5 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+                            <h3 class="text-lg font-semibold text-red-600 dark:text-red-400 mb-3">📖 What do you like to read about or listen to?</h3>
+                            <textarea class="kids-answer w-full p-3 border-2 border-red-200 dark:border-red-600 rounded-lg text-base resize-none" 
+                                data-question="reading-listening" rows="2" 
+                                placeholder="What stories or topics do you enjoy?"></textarea>
+                        </div>
+
+                        <!-- Question 6 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+                            <h3 class="text-lg font-semibold text-indigo-600 dark:text-indigo-400 mb-3">⭐ What's something you're really good at doing?</h3>
+                            <textarea class="kids-answer w-full p-3 border-2 border-indigo-200 dark:border-indigo-600 rounded-lg text-base resize-none" 
+                                data-question="good-at" rows="2" 
+                                placeholder="What are you proud to be good at?"></textarea>
+                        </div>
+
+                        <!-- Question 7 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+                            <h3 class="text-lg font-semibold text-pink-600 dark:text-pink-400 mb-3">🎓 If you could learn anything new right now, what would it be?</h3>
+                            <textarea class="kids-answer w-full p-3 border-2 border-pink-200 dark:border-pink-600 rounded-lg text-base resize-none" 
+                                data-question="want-to-learn" rows="2" 
+                                placeholder="What new skill would be exciting to learn?"></textarea>
+                        </div>
+
+                        <!-- Question 8 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+                            <h3 class="text-lg font-semibold text-orange-600 dark:text-orange-400 mb-3">😊 What makes you really happy?</h3>
+                            <textarea class="kids-answer w-full p-3 border-2 border-orange-200 dark:border-orange-600 rounded-lg text-base resize-none" 
+                                data-question="happiness" rows="2" 
+                                placeholder="What brings the biggest smile to your face?"></textarea>
+                        </div>
+
+                        <!-- Question 9 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+                            <h3 class="text-lg font-semibold text-teal-600 dark:text-teal-400 mb-3">🌍 If you could travel anywhere in the world, where would you go, and why?</h3>
+                            <textarea class="kids-answer w-full p-3 border-2 border-teal-200 dark:border-teal-600 rounded-lg text-base resize-none" 
+                                data-question="travel" rows="2" 
+                                placeholder="What amazing place would you visit?"></textarea>
+                        </div>
+
+                        <!-- Question 10 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+                            <h3 class="text-lg font-semibold text-purple-600 dark:text-purple-400 mb-3">🏗️ What do you like to create or build?</h3>
+                            <textarea class="kids-answer w-full p-3 border-2 border-purple-200 dark:border-purple-600 rounded-lg text-base resize-none" 
+                                data-question="create-build" rows="2" 
+                                placeholder="What do you enjoy making with your hands?"></textarea>
+                        </div>
+
+                        <!-- Question 11 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+                            <h3 class="text-lg font-semibold text-blue-600 dark:text-blue-400 mb-3">❓ What questions do you have about the world?</h3>
+                            <textarea class="kids-answer w-full p-3 border-2 border-blue-200 dark:border-blue-600 rounded-lg text-base resize-none" 
+                                data-question="world-questions" rows="2" 
+                                placeholder="What makes you curious about how things work?"></textarea>
+                        </div>
+
+                        <!-- Question 12 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+                            <h3 class="text-lg font-semibold text-green-600 dark:text-green-400 mb-3">🎮 What kinds of games do you enjoy playing?</h3>
+                            <textarea class="kids-answer w-full p-3 border-2 border-green-200 dark:border-green-600 rounded-lg text-base resize-none" 
+                                data-question="games" rows="2" 
+                                placeholder="What games are the most fun for you?"></textarea>
+                        </div>
+
+                        <!-- Question 13 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+                            <h3 class="text-lg font-semibold text-yellow-600 dark:text-yellow-400 mb-3">👨‍👩‍👧‍👦 What do you like to do with your family?</h3>
+                            <textarea class="kids-answer w-full p-3 border-2 border-yellow-200 dark:border-yellow-600 rounded-lg text-base resize-none" 
+                                data-question="family-activities" rows="2" 
+                                placeholder="What fun activities do you enjoy with your family?"></textarea>
+                        </div>
+
+                        <!-- Question 14 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+                            <h3 class="text-lg font-semibold text-red-600 dark:text-red-400 mb-3">🐕 If you could have any pet, what would it be, and why?</h3>
+                            <textarea class="kids-answer w-full p-3 border-2 border-red-200 dark:border-red-600 rounded-lg text-base resize-none" 
+                                data-question="pet" rows="2" 
+                                placeholder="What animal would make the best companion?"></textarea>
+                        </div>
+
+                        <!-- Question 15 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm">
+                            <h3 class="text-lg font-semibold text-indigo-600 dark:text-indigo-400 mb-3">🏆 What's something you're really proud of accomplishing?</h3>
+                            <textarea class="kids-answer w-full p-3 border-2 border-indigo-200 dark:border-indigo-600 rounded-lg text-base resize-none" 
+                                data-question="proud-accomplishment" rows="2" 
+                                placeholder="What achievement makes you feel proud?"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 text-center">
+                        <button id="continue-step-4-kids" class="px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white text-lg font-bold rounded-full transition-colors duration-200 shadow-lg transform hover:scale-105">
+                            Let's Find Amazing Courses! 🚀
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 4B: Teen Questions (6-12 only) -->
+                <div id="step-4-teens" class="onboarding-step bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-8 shadow-md hidden">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">Tell Us About Your Interests & Goals 🎓</h2>
+                    <p class="text-center text-gray-600 dark:text-gray-400 mb-6">These questions help us understand what drives you and find courses that match your passions and aspirations.</p>
+                    
+                    <div class="space-y-6 max-h-96 overflow-y-auto">
+                        <!-- Question 1 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-blue-600 dark:text-blue-400 mb-3">🚀 What's a passion project you'd love to start if you had the time and resources?</h3>
+                            <textarea class="teens-answer w-full p-3 border-2 border-blue-200 dark:border-blue-600 rounded-lg text-base resize-none" 
+                                data-question="passion-project" rows="3" 
+                                placeholder="Describe a project that would really excite you..."></textarea>
+                        </div>
+
+                        <!-- Question 2 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-green-600 dark:text-green-400 mb-3">⚡ If you could master any skill instantly, what would it be, and how would you use it?</h3>
+                            <textarea class="teens-answer w-full p-3 border-2 border-green-200 dark:border-green-600 rounded-lg text-base resize-none" 
+                                data-question="master-skill" rows="3" 
+                                placeholder="What skill would unlock your potential?"></textarea>
+                        </div>
+
+                        <!-- Question 3 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-purple-600 dark:text-purple-400 mb-3">🧠 What's a topic you could spend hours researching or discussing?</h3>
+                            <textarea class="teens-answer w-full p-3 border-2 border-purple-200 dark:border-purple-600 rounded-lg text-base resize-none" 
+                                data-question="research-topic" rows="3" 
+                                placeholder="What subject fascinates you endlessly?"></textarea>
+                        </div>
+
+                        <!-- Question 4 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-red-600 dark:text-red-400 mb-3">📚 What's the most interesting article, book, or video you've encountered recently, and why did it resonate with you?</h3>
+                            <textarea class="teens-answer w-full p-3 border-2 border-red-200 dark:border-red-600 rounded-lg text-base resize-none" 
+                                data-question="interesting-content" rows="3" 
+                                placeholder="Share something that made you think differently..."></textarea>
+                        </div>
+
+                        <!-- Question 5 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-yellow-600 dark:text-yellow-400 mb-3">🏫 If you could design a new class or club at school, what would it be about?</h3>
+                            <textarea class="teens-answer w-full p-3 border-2 border-yellow-200 dark:border-yellow-600 rounded-lg text-base resize-none" 
+                                data-question="new-class" rows="3" 
+                                placeholder="What learning opportunity is missing from your school?"></textarea>
+                        </div>
+
+                        <!-- Question 6 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-teal-600 dark:text-teal-400 mb-3">🌍 What's a problem in the world that you'd like to help solve, and what's one small step you could take towards addressing it?</h3>
+                            <textarea class="teens-answer w-full p-3 border-2 border-teal-200 dark:border-teal-600 rounded-lg text-base resize-none" 
+                                data-question="world-problem" rows="3" 
+                                placeholder="What change would you like to see in the world?"></textarea>
+                        </div>
+
+                        <!-- Question 7 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-indigo-600 dark:text-indigo-400 mb-3">📈 What's something you're currently trying to get better at?</h3>
+                            <textarea class="teens-answer w-full p-3 border-2 border-indigo-200 dark:border-indigo-600 rounded-lg text-base resize-none" 
+                                data-question="improving-at" rows="3" 
+                                placeholder="What skill or area are you actively working to improve?"></textarea>
+                        </div>
+
+                        <!-- Question 8 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-pink-600 dark:text-pink-400 mb-3">💬 If you could have a conversation with any historical or contemporary figure, who would it be, and what would you ask them?</h3>
+                            <textarea class="teens-answer w-full p-3 border-2 border-pink-200 dark:border-pink-600 rounded-lg text-base resize-none" 
+                                data-question="conversation-figure" rows="3" 
+                                placeholder="Who would you want to learn from or debate with?"></textarea>
+                        </div>
+
+                        <!-- Question 9 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-orange-600 dark:text-orange-400 mb-3">🎨 What's your favorite way to express yourself creatively? (Writing, music, art, etc.)</h3>
+                            <textarea class="teens-answer w-full p-3 border-2 border-orange-200 dark:border-orange-600 rounded-lg text-base resize-none" 
+                                data-question="creative-expression" rows="3" 
+                                placeholder="How do you bring your ideas to life?"></textarea>
+                        </div>
+
+                        <!-- Question 10 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-cyan-600 dark:text-cyan-400 mb-3">🤝 What kind of volunteer work or community involvement are you most drawn to, and why?</h3>
+                            <textarea class="teens-answer w-full p-3 border-2 border-cyan-200 dark:border-cyan-600 rounded-lg text-base resize-none" 
+                                data-question="volunteer-work" rows="3" 
+                                placeholder="How do you like to contribute to your community?"></textarea>
+                        </div>
+
+                        <!-- Question 11 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-violet-600 dark:text-violet-400 mb-3">🤖 What's a technological innovation that excites or concerns you?</h3>
+                            <textarea class="teens-answer w-full p-3 border-2 border-violet-200 dark:border-violet-600 rounded-lg text-base resize-none" 
+                                data-question="tech-innovation" rows="3" 
+                                placeholder="What technology makes you think about the future?"></textarea>
+                        </div>
+
+                        <!-- Question 12 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-emerald-600 dark:text-emerald-400 mb-3">💪 What's a subject you find challenging but are determined to understand better?</h3>
+                            <textarea class="teens-answer w-full p-3 border-2 border-emerald-200 dark:border-emerald-600 rounded-lg text-base resize-none" 
+                                data-question="challenging-subject" rows="3" 
+                                placeholder="What challenges do you refuse to give up on?"></textarea>
+                        </div>
+
+                        <!-- Question 13 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-rose-600 dark:text-rose-400 mb-3">🎬 What kind of media (movies, TV shows, music, video games) do you enjoy, and what aspects of them appeal to you?</h3>
+                            <textarea class="teens-answer w-full p-3 border-2 border-rose-200 dark:border-rose-600 rounded-lg text-base resize-none" 
+                                data-question="media-preferences" rows="3" 
+                                placeholder="What stories or experiences draw you in?"></textarea>
+                        </div>
+
+                        <!-- Question 14 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-amber-600 dark:text-amber-400 mb-3">🎯 What's a goal you're working towards, and what steps are you taking to achieve it?</h3>
+                            <textarea class="teens-answer w-full p-3 border-2 border-amber-200 dark:border-amber-600 rounded-lg text-base resize-none" 
+                                data-question="current-goal" rows="3" 
+                                placeholder="What are you building towards?"></textarea>
+                        </div>
+
+                        <!-- Question 15 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-sky-600 dark:text-sky-400 mb-3">🌌 If you could travel anywhere in the universe, where would you go, and what would you hope to discover?</h3>
+                            <textarea class="teens-answer w-full p-3 border-2 border-sky-200 dark:border-sky-600 rounded-lg text-base resize-none" 
+                                data-question="universe-travel" rows="3" 
+                                placeholder="What mysteries would you want to explore?"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 text-center">
+                        <button id="continue-step-4-teens" class="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-lg font-semibold rounded-lg transition-colors duration-200 shadow-lg">
+                            Discover My Learning Path 🎓
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 4C: College Questions (College only) -->
+                <div id="step-4-college" class="onboarding-step bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-lg p-8 shadow-md hidden">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">Share Your College Journey & Aspirations 🎯</h2>
+                    <p class="text-center text-gray-600 dark:text-gray-400 mb-6">These questions help us understand your evolving interests, values, and goals as you navigate this transformative period.</p>
+                    
+                    <div class="space-y-6 max-h-96 overflow-y-auto">
+                        <!-- Question 1 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-emerald-600 dark:text-emerald-400 mb-3">🌟 If you could take a sabbatical year to explore any topic or skill, what would it be?</h3>
+                            <textarea class="college-answer w-full p-3 border-2 border-emerald-200 dark:border-emerald-600 rounded-lg text-base resize-none" 
+                                data-question="sabbatical-exploration" rows="3" 
+                                placeholder="What would you dive deep into given unlimited time and freedom?"></textarea>
+                        </div>
+
+                        <!-- Question 2 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-teal-600 dark:text-teal-400 mb-3">📚 What's a skill you're actively trying to cultivate outside of your formal education?</h3>
+                            <textarea class="college-answer w-full p-3 border-2 border-teal-200 dark:border-teal-600 rounded-lg text-base resize-none" 
+                                data-question="self-directed-skill" rows="3" 
+                                placeholder="What are you learning on your own initiative?"></textarea>
+                        </div>
+
+                        <!-- Question 3 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-green-600 dark:text-green-400 mb-3">🌍 What's a current social or ethical issue that you're particularly passionate about? What action, big or small, have you taken to support your views on the subject?</h3>
+                            <textarea class="college-answer w-full p-3 border-2 border-green-200 dark:border-green-600 rounded-lg text-base resize-none" 
+                                data-question="social-passion" rows="3" 
+                                placeholder="What issues drive you to action?"></textarea>
+                        </div>
+
+                        <!-- Question 4 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-cyan-600 dark:text-cyan-400 mb-3">🏆 What's a project (personal or academic) that you're most proud of, and what did you learn from the experience?</h3>
+                            <textarea class="college-answer w-full p-3 border-2 border-cyan-200 dark:border-cyan-600 rounded-lg text-base resize-none" 
+                                data-question="proud-project" rows="3" 
+                                placeholder="Share an achievement that truly matters to you..."></textarea>
+                        </div>
+
+                        <!-- Question 5 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-blue-600 dark:text-blue-400 mb-3">💼 If you could create your dream job from scratch, what would it entail?</h3>
+                            <textarea class="college-answer w-full p-3 border-2 border-blue-200 dark:border-blue-600 rounded-lg text-base resize-none" 
+                                data-question="dream-job" rows="3" 
+                                placeholder="Design your ideal career without limitations..."></textarea>
+                        </div>
+
+                        <!-- Question 6 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-indigo-600 dark:text-indigo-400 mb-3">🎧 What's a book, podcast, or documentary that has significantly impacted your perspective recently, and how?</h3>
+                            <textarea class="college-answer w-full p-3 border-2 border-indigo-200 dark:border-indigo-600 rounded-lg text-base resize-none" 
+                                data-question="impactful-media" rows="3" 
+                                placeholder="What content has shifted your thinking?"></textarea>
+                        </div>
+
+                        <!-- Question 7 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-purple-600 dark:text-purple-400 mb-3">🤔 What's a misconception people often have about your generation?</h3>
+                            <textarea class="college-answer w-full p-3 border-2 border-purple-200 dark:border-purple-600 rounded-lg text-base resize-none" 
+                                data-question="generation-misconception" rows="3" 
+                                placeholder="What would you like people to understand about Gen Z?"></textarea>
+                        </div>
+
+                        <!-- Question 8 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-rose-600 dark:text-rose-400 mb-3">💪 What's one thing you're willing to struggle with in order to achieve something you truly want?</h3>
+                            <textarea class="college-answer w-full p-3 border-2 border-rose-200 dark:border-rose-600 rounded-lg text-base resize-none" 
+                                data-question="worthwhile-struggle" rows="3" 
+                                placeholder="What challenges are you willing to embrace?"></textarea>
+                        </div>
+
+                        <!-- Question 9 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-orange-600 dark:text-orange-400 mb-3">🍽️ If you could have dinner with any three people (living or deceased), who would they be, and what would you discuss?</h3>
+                            <textarea class="college-answer w-full p-3 border-2 border-orange-200 dark:border-orange-600 rounded-lg text-base resize-none" 
+                                data-question="dinner-companions" rows="3" 
+                                placeholder="Who would you want to learn from or debate with?"></textarea>
+                        </div>
+
+                        <!-- Question 10 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-lime-600 dark:text-lime-400 mb-3">🧘 What's your favorite way to de-stress and recharge after a demanding week?</h3>
+                            <textarea class="college-answer w-full p-3 border-2 border-lime-200 dark:border-lime-600 rounded-lg text-base resize-none" 
+                                data-question="stress-relief" rows="3" 
+                                placeholder="How do you maintain your mental health and energy?"></textarea>
+                        </div>
+
+                        <!-- Question 11 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-sky-600 dark:text-sky-400 mb-3">🔬 What's a trend or innovation you find particularly exciting or concerning in your field of study?</h3>
+                            <textarea class="college-answer w-full p-3 border-2 border-sky-200 dark:border-sky-600 rounded-lg text-base resize-none" 
+                                data-question="field-trends" rows="3" 
+                                placeholder="What developments are shaping your academic discipline?"></textarea>
+                        </div>
+
+                        <!-- Question 12 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-violet-600 dark:text-violet-400 mb-3">🔄 What's a belief you once held strongly that you've changed your mind about, and what caused you to reconsider?</h3>
+                            <textarea class="college-answer w-full p-3 border-2 border-violet-200 dark:border-violet-600 rounded-lg text-base resize-none" 
+                                data-question="changed-belief" rows="3" 
+                                placeholder="How has your thinking evolved?"></textarea>
+                        </div>
+
+                        <!-- Question 13 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-pink-600 dark:text-pink-400 mb-3">🎯 What kind of impact do you hope to make on the world (or your community) in the next five years?</h3>
+                            <textarea class="college-answer w-full p-3 border-2 border-pink-200 dark:border-pink-600 rounded-lg text-base resize-none" 
+                                data-question="five-year-impact" rows="3" 
+                                placeholder="What legacy do you want to build?"></textarea>
+                        </div>
+
+                        <!-- Question 14 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-amber-600 dark:text-amber-400 mb-3">🎨 What's a creative pursuit you've always wanted to explore but haven't yet had the chance to?</h3>
+                            <textarea class="college-answer w-full p-3 border-2 border-amber-200 dark:border-amber-600 rounded-lg text-base resize-none" 
+                                data-question="creative-pursuit" rows="3" 
+                                placeholder="What creative dreams are waiting to be explored?"></textarea>
+                        </div>
+
+                        <!-- Question 15 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-red-600 dark:text-red-400 mb-3">💭 If you could give one piece of advice to your high school self, what would it be?</h3>
+                            <textarea class="college-answer w-full p-3 border-2 border-red-200 dark:border-red-600 rounded-lg text-base resize-none" 
+                                data-question="advice-to-past" rows="3" 
+                                placeholder="What wisdom would you share with your younger self?"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 text-center">
+                        <button id="continue-step-4-college" class="px-8 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white text-lg font-semibold rounded-lg transition-colors duration-200 shadow-lg">
+                            Find My Perfect Learning Path 🎯
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 4D: Adult Questions (Adult only) -->
+                <div id="step-4-adults" class="onboarding-step bg-gradient-to-br from-slate-50 to-gray-50 dark:from-slate-900/20 dark:to-gray-900/20 rounded-lg p-8 shadow-md hidden">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">Discover Your Learning Path 💼</h2>
+                    <p class="text-center text-gray-600 dark:text-gray-400 mb-6">These questions help us understand your life experiences, passions, and learning goals to find courses that truly resonate with you.</p>
+                    
+                    <div class="space-y-6 max-h-96 overflow-y-auto">
+                        <!-- Question 1 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-slate-600 dark:text-slate-400 mb-3">🎯 What activities or hobbies bring you the most joy or fulfillment in your free time?</h3>
+                            <textarea class="adults-answer w-full p-3 border-2 border-slate-200 dark:border-slate-600 rounded-lg text-base resize-none" 
+                                data-question="fulfilling-activities" rows="3" 
+                                placeholder="Share what brings you genuine happiness and satisfaction..."></textarea>
+                        </div>
+
+                        <!-- Question 2 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-gray-600 dark:text-gray-400 mb-3">📚 Is there a skill you've always wanted to learn or improve, and what has stopped you from pursuing it so far?</h3>
+                            <textarea class="adults-answer w-full p-3 border-2 border-gray-200 dark:border-gray-600 rounded-lg text-base resize-none" 
+                                data-question="desired-skill" rows="3" 
+                                placeholder="What skill calls to you, and what barriers have you encountered?"></textarea>
+                        </div>
+
+                        <!-- Question 3 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-red-600 dark:text-red-400 mb-3">❤️ What's something you're deeply passionate about, and how do you incorporate it into your life?</h3>
+                            <textarea class="adults-answer w-full p-3 border-2 border-red-200 dark:border-red-600 rounded-lg text-base resize-none" 
+                                data-question="deep-passion" rows="3" 
+                                placeholder="What ignites your enthusiasm and how do you nurture it?"></textarea>
+                        </div>
+
+                        <!-- Question 4 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-green-600 dark:text-green-400 mb-3">🏆 Can you share a personal achievement—big or small—that you're particularly proud of? What made it meaningful to you?</h3>
+                            <textarea class="adults-answer w-full p-3 border-2 border-green-200 dark:border-green-600 rounded-lg text-base resize-none" 
+                                data-question="proud-achievement" rows="3" 
+                                placeholder="Reflect on a moment of accomplishment that holds special meaning..."></textarea>
+                        </div>
+
+                        <!-- Question 5 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-blue-600 dark:text-blue-400 mb-3">💪 When faced with a new challenge, what strengths do you usually rely on?</h3>
+                            <textarea class="adults-answer w-full p-3 border-2 border-blue-200 dark:border-blue-600 rounded-lg text-base resize-none" 
+                                data-question="personal-strengths" rows="3" 
+                                placeholder="What qualities and abilities serve you best in difficult situations?"></textarea>
+                        </div>
+
+                        <!-- Question 6 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-orange-600 dark:text-orange-400 mb-3">🌱 What's an area of your life or personality where you see room for growth or improvement?</h3>
+                            <textarea class="adults-answer w-full p-3 border-2 border-orange-200 dark:border-orange-600 rounded-lg text-base resize-none" 
+                                data-question="growth-areas" rows="3" 
+                                placeholder="Where would you like to see positive change in yourself?"></textarea>
+                        </div>
+
+                        <!-- Question 7 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-purple-600 dark:text-purple-400 mb-3">🎓 If you could dedicate a year to exploring any topic or interest, what would you choose and why?</h3>
+                            <textarea class="adults-answer w-full p-3 border-2 border-purple-200 dark:border-purple-600 rounded-lg text-base resize-none" 
+                                data-question="year-long-exploration" rows="3" 
+                                placeholder="What subject would capture your focus for an entire year?"></textarea>
+                        </div>
+
+                        <!-- Question 8 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-teal-600 dark:text-teal-400 mb-3">✨ Describe a time when trying something new led you to discover a hidden talent or interest.</h3>
+                            <textarea class="adults-answer w-full p-3 border-2 border-teal-200 dark:border-teal-600 rounded-lg text-base resize-none" 
+                                data-question="hidden-discovery" rows="3" 
+                                placeholder="Share a story of unexpected self-discovery..."></textarea>
+                        </div>
+
+                        <!-- Question 9 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-indigo-600 dark:text-indigo-400 mb-3">🎬 What types of books, movies, podcasts, or art forms do you find most engaging—and why do they resonate with you?</h3>
+                            <textarea class="adults-answer w-full p-3 border-2 border-indigo-200 dark:border-indigo-600 rounded-lg text-base resize-none" 
+                                data-question="engaging-media" rows="3" 
+                                placeholder="What content speaks to your soul and why?"></textarea>
+                        </div>
+
+                        <!-- Question 10 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-pink-600 dark:text-pink-400 mb-3">🤝 Are there any causes or issues you feel strongly about supporting? What motivates your involvement?</h3>
+                            <textarea class="adults-answer w-full p-3 border-2 border-pink-200 dark:border-pink-600 rounded-lg text-base resize-none" 
+                                data-question="causes-support" rows="3" 
+                                placeholder="What drives your desire to make a difference?"></textarea>
+                        </div>
+
+                        <!-- Question 11 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-yellow-600 dark:text-yellow-400 mb-3">🎨 How do you like to express your creativity, and what role does creativity play in your daily life?</h3>
+                            <textarea class="adults-answer w-full p-3 border-2 border-yellow-200 dark:border-yellow-600 rounded-lg text-base resize-none" 
+                                data-question="creative-expression" rows="3" 
+                                placeholder="How does creativity manifest in your world?"></textarea>
+                        </div>
+
+                        <!-- Question 12 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-cyan-600 dark:text-cyan-400 mb-3">💼 Reflecting on your career (or life's work), what projects or roles have been especially meaningful to you?</h3>
+                            <textarea class="adults-answer w-full p-3 border-2 border-cyan-200 dark:border-cyan-600 rounded-lg text-base resize-none" 
+                                data-question="meaningful-work" rows="3" 
+                                placeholder="What work has given you the deepest sense of purpose?"></textarea>
+                        </div>
+
+                        <!-- Question 13 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-rose-600 dark:text-rose-400 mb-3">🌟 Who inspires you—personally or professionally—and what qualities do you admire most in them?</h3>
+                            <textarea class="adults-answer w-full p-3 border-2 border-rose-200 dark:border-rose-600 rounded-lg text-base resize-none" 
+                                data-question="inspiring-people" rows="3" 
+                                placeholder="Who do you look up to and what draws you to them?"></textarea>
+                        </div>
+
+                        <!-- Question 14 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-emerald-600 dark:text-emerald-400 mb-3">🔍 What's a curiosity or interest you have that tends to surprise others when they learn about it?</h3>
+                            <textarea class="adults-answer w-full p-3 border-2 border-emerald-200 dark:border-emerald-600 rounded-lg text-base resize-none" 
+                                data-question="surprising-interest" rows="3" 
+                                placeholder="What unexpected passion or hobby do you have?"></textarea>
+                        </div>
+
+                        <!-- Question 15 -->
+                        <div class="bg-white dark:bg-gray-800 rounded-lg p-5 shadow-sm">
+                            <h3 class="text-lg font-semibold text-violet-600 dark:text-violet-400 mb-3">💭 If you could give your younger self advice about pursuing interests or passions, what would it be?</h3>
+                            <textarea class="adults-answer w-full p-3 border-2 border-violet-200 dark:border-violet-600 rounded-lg text-base resize-none" 
+                                data-question="advice-to-younger-self" rows="3" 
+                                placeholder="What wisdom would you share about following your passions?"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 text-center">
+                        <button id="continue-step-4-adults" class="px-8 py-4 bg-gradient-to-r from-slate-600 to-gray-600 hover:from-slate-700 hover:to-gray-700 text-white text-lg font-semibold rounded-lg transition-colors duration-200 shadow-lg">
+                            Create My Learning Journey 💼
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 5: Time Commitment -->
+                <div id="step-5" class="onboarding-step bg-gray-50 dark:bg-gray-800 rounded-lg p-8 shadow-md hidden">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">How much time do you want to spend learning?</h2>
+                    <div class="space-y-4">
+                        <button class="time-option w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary hover:bg-primary hover:text-white transition-all duration-200 text-left" data-time="short">
+                            <div class="font-semibold">Quick Learning (15-30 minutes)</div>
+                            <div class="text-sm opacity-75">Short, focused sessions</div>
+                        </button>
+                        <button class="time-option w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary hover:bg-primary hover:text-white transition-all duration-200 text-left" data-time="medium">
+                            <div class="font-semibold">Moderate Learning (30-60 minutes)</div>
+                            <div class="text-sm opacity-75">Regular study sessions</div>
+                        </button>
+                        <button class="time-option w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary hover:bg-primary hover:text-white transition-all duration-200 text-left" data-time="long">
+                            <div class="font-semibold">Deep Learning (1+ hours)</div>
+                            <div class="text-sm opacity-75">Comprehensive courses</div>
+                        </button>
+                        <button class="time-option w-full p-4 border-2 border-gray-300 dark:border-gray-600 rounded-lg hover:border-primary hover:bg-primary hover:text-white transition-all duration-200 text-left" data-time="flexible">
+                            <div class="font-semibold">Flexible</div>
+                            <div class="text-sm opacity-75">I'll decide based on the course</div>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results-section" class="container mx-auto px-4 py-6 hidden">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">Your Personalized Learning Path</h2>
+                <p class="text-gray-600 dark:text-gray-400">Based on your interests, we've selected these courses for you:</p>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loading-recommendations" class="text-center py-8">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                <p class="mt-2 text-gray-600 dark:text-gray-400">Finding your perfect courses...</p>
+            </div>
+
+            <!-- Recommended Courses -->
+            <div id="recommended-courses" class="hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="course-grid">
+                </div>
+                
+                <!-- Free Trial CTA -->
+                <div class="max-w-2xl mx-auto mt-12 mb-8">
+                    <div class="bg-gradient-to-r from-primary to-purple-600 rounded-2xl p-8 text-white text-center shadow-xl">
+                        <h3 class="text-2xl font-bold mb-4">Ready to Start Learning? 🚀</h3>
+                        <p class="text-lg mb-6 opacity-90">Access all these courses and thousands more with your free trial!</p>
+                        <button id="start-free-trial" class="px-8 py-4 bg-white text-primary text-lg font-bold rounded-xl hover:bg-gray-100 transition-colors duration-200 shadow-lg transform hover:scale-105">
+                            Start Your FREE Trial
+                        </button>
+                        <p class="text-sm mt-4 opacity-75">No credit card required • Cancel anytime • 7-day free trial</p>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-8">
+                    <button id="restart-quiz" class="px-6 py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors duration-200">
+                        Start Over
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Hardcoded CSV data
+        const csvData = `Title,ID,Created Date,Updated Date,Owner,Description,Link,Banner,EMBED,TECHNOLOGY 2 (List),Publish Date,Unpublish Date,Status,Level,EMBED CODE,SCIENCE (List),PARENTING (List),MATH (List),LIFE SKILLS (List),LANGUAGES (List),LANGUAGES (List),HUMANITIES (List),HISTORY (List),EMBED,URL,Subject,HEALTH (Item),HEALTH (List),Faith (Item),FAITH (List),FAITH (List),ENGLISH (Item),ENGLISH (List),CAREERS (List),Art & Music (Item),Text,ART/MUSIC (List),ART/MUSIC (List),ART/MUSIC (List)
+A Day in the Life of a Computer Scientist,021dfc1b-815b-4c13-a756-8269518e2005,2025-05-13T23:44:28Z,2025-05-14T00:20:44Z,f4374139-dd87-45da-b833-8f32e0bf93e6,This course offers an immersive journey into the everyday tasks and challenges faced by computer scientists,https://app.mindsmith.ai/course/cma3549ys000nzpp6y42eb353,wix:image://v1/f43741_26499d0524cb45c7adebdeca9cda5640~mv2.jpg/A%20Day%20in%20the%20Life%20of%20a%20Computer%20Scientist.jpg#originWidth=1792&originHeight=1024,"http://<iframe src=""https://app.mindsmith.ai/course/cma3549ys000nzpp6y42eb353/learn"" style=""height: 700px; width: 1200px; max-height: 100%; max-width: 100%; border:none;"" allow=""fullscreen"" title=""Mindsmith Course Player""}""></iframe>",/technology-2/,,,PUBLISHED,,,,,,,,,,,,,,,,,,,,,,,,,,
+"What's It Like to be a Video Game Designer? ",0315ff5b-5fd2-4b8c-a11a-7ab8e8028985,2025-05-13T13:07:58Z,2025-05-13T13:09:03Z,f4374139-dd87-45da-b833-8f32e0bf93e6,"This course provides an overview of video game design, covering theoretical foundations, practical skills, and the game development pipeline. It prepares students for careers in game design by integrating design principles, technical skills, artistic elements, and industry practices.",https://app.mindsmith.ai/course/cm8eq1k8u00c57031nasuecz8,wix:image://v1/f43741_771066e81595418f8806e6830076fd59~mv2.jpg/What's%20It%20Like%20to%20be%20a%20Video%20Game%20Designer_%20.jpg#originWidth=1408&originHeight=768,"http://This course provides an overview of video game design, covering theoretical foundations, practical skills, and the game development pipeline. It prepares students for careers in game design by integrating design principles, technical skills, artistic elements, and industry practices.",/technology-2/,,,PUBLISHED,,,,,,,,,,,,,,,,,,,,,,,,,,
+The Strategies for Fortnite,0418ba7f-2ef3-4229-b3af-82c3d4d7abcf,2025-05-13T23:44:23Z,2025-05-14T00:10:28Z,f4374139-dd87-45da-b833-8f32e0bf93e6,"This course covers everything from the fundamentals of Fortnite to advanced tactics and team dynamics. Learn essential controls, building techniques, combat skills, and more to dominate the game and improve your competitive play.",https://app.mindsmith.ai/course/cm94vn3j000zd2fyp4cz4d3vg,wix:image://v1/f43741_a994d422e64e4b6f9a77f2ee83f40d1a~mv2.jpg/The%20Strategies%20for%20Fortnite.jpg#originWidth=1792&originHeight=1024,"http://<iframe src=""https://app.mindsmith.ai/course/cm94vn3j000zd2fyp4cz4d3vg/learn"" style=""height: 700px; width: 1200px; max-height: 100%; max-width: 100%; border:none;"" allow=""fullscreen"" title=""Mindsmith Course Player""}""></iframe>",/technology-2/,,,PUBLISHED,,,,,,,,,,,,,,,,,,,,,,,,,,
+The Secrets of Minecraft,0855c1b9-eee9-4d16-b296-255f7c7a379b,2025-05-13T23:32:45Z,2025-05-14T00:08:43Z,f4374139-dd87-45da-b833-8f32e0bf93e6,"This comprehensive course explores the hidden mechanics, advanced strategies, and lesser-known features of Minecraft.",https://app.mindsmith.ai/course/cm94uimbg009ne8ohzvfsefb1,wix:image://v1/f43741_c73fe2f0c0814d72b78d241d71588e68~mv2.jpg/The%20Secrets%20of%20Minecraft.jpg#originWidth=1792&originHeight=1024,"http://<iframe src=""https://app.mindsmith.ai/course/cm94uimbg009ne8ohzvfsefb1/learn"" style=""height: 700px; width: 1200px; max-height: 100%; max-width: 100%; border:none;"" allow=""fullscreen"" title=""Mindsmith Course Player""}""></iframe>",/technology-2/,,,PUBLISHED,,,,,,,,,,,,,,,,,,,,,,,,,,
+How to Read Math,51cc6033-f74a-4b2d-9305-44888e401e5d,2025-05-12T15:06:23Z,2025-05-12T15:39:05Z,f4374139-dd87-45da-b833-8f32e0bf93e6,This course is designed to help learners develop the skills necessary to effectively read and comprehend mathematical texts. It covers various techniques and strategies for understanding complex mathematical concepts and notations.,https://app.mindsmith.ai/course/cmabse0f700mu3ca9a2i7j9k8,wix:image://v1/f43741_4a79a5fa9fa3472fae74cef3673adddd~mv2.jpg/How%20to%20Read%20Math.jpg#originWidth=1792&originHeight=1024,"http://<iframe src=""https://app.mindsmith.ai/course/cmabse0f700mu3ca9a2i7j9k8/learn"" style=""height: 700px; width: 1200px; max-height: 100%; max-width: 100%; border:none;"" allow=""fullscreen"" title=""Mindsmith Course Player""}""></iframe>",,,,,PUBLISHED,,,,,/math-1/,,,,,,,,,,,,,,,,,,,,,
+Godly Discipline: Every Parent Needs to Know This,0aae5993-60cc-466f-a92d-32f3ba794fe1,2025-05-20T17:09:24Z,2025-05-20T17:20:12Z,f4374139-dd87-45da-b833-8f32e0bf93e6,"Discover essential principles and strategies for implementing godly discipline in parenting. This course explores the foundational aspects of discipline, the importance of consistency, and techniques for nurturing a child's spiritual and moral growth.",https://app.mindsmith.ai/course/cmar90i9a01lf13zr0vgr8oo2,wix:image://v1/f43741_558a92a82ec340e4be2fa7b3f0593340~mv2.jpg/Godly%20Discipline-%20Every%20Parent%20Needs%20to%20Know%20This.jpg#originWidth=1792&originHeight=1024,"http://<iframe src=""https://app.mindsmith.ai/course/cmar90i9a01lf13zr0vgr8oo2/learn"" style=""height: 700px; width: 1200px; max-height: 100%; max-width: 100%; border:none;"" allow=""fullscreen"" title=""Mindsmith Course Player""></iframe>",,,,PUBLISHED,,,,/parenting/,,,,,,,,,,,,,,,,,,,,,,
+Biology Explained in 17 Minutes,116b73b6-cf84-4e2f-9812-f59a92108b14,2025-05-11T21:32:34Z,2025-05-11T21:58:47Z,f4374139-dd87-45da-b833-8f32e0bf93e6,"This course offers a concise and comprehensive overview of essential biology concepts, perfect for learners looking to grasp the fundamentals quickly.",https://app.mindsmith.ai/course/cma5oeejc011mkju6c4k8lrj2,wix:image://v1/f43741_acb7bc5a31b14f01b4a5d9b80daae907~mv2.jpg/Biology%20Explained%20in%2017%20Minutes.jpg#originWidth=1792&originHeight=1024,,,,,PUBLISHED,,"http://<iframe src=""https://app.mindsmith.ai/course/cma5oeejc011mkju6c4k8lrj2/learn"" style=""height: 700px; width: 1200px; max-height: 100%; max-width: 100%; border:none;"" allow=""fullscreen"" title=""Mindsmith Course Player""}""></iframe>",/science-1/,,,,,,,,,,,,,,,,,,,,,,,
+How to Be a Genius Negotiator,04667821-820a-47e1-b605-ba57532a6313,2025-05-13T17:50:52Z,2025-05-13T18:43:58Z,f4374139-dd87-45da-b833-8f32e0bf93e6,"It includes the psychology of negotiation, preparation strategies, value creation, value claiming, communication mastery, and handling complex negotiations.",https://app.mindsmith.ai/course/cm8ho4mr200rk7q2l110amo8g,wix:image://v1/f43741_c555e697fefd4463a27e99e4d1bb7664~mv2.jpg/How%20to%20Be%20a%20Genius%20Negotiator.jpg#originWidth=1792&originHeight=1024,"http://<iframe src=""https://app.mindsmith.ai/course/cm8ho4mr200rk7q2l110amo8g/learn"" style=""height: 700px; width: 1200px; max-height: 100%; max-width: 100%; border:none;"" allow=""fullscreen"" title=""Mindsmith Course Player""}""></iframe>",,,,PUBLISHED,,,,,,/life-skills-1/,,,,,,,,,,,,,,,,,,,,
+"Planets 101 | Planets Of Our Solar System ",030f63c2-61d0-4a52-9bb0-ff7da57d6da2,2025-05-11T20:11:36Z,2025-05-11T20:28:39Z,f4374139-dd87-45da-b833-8f32e0bf93e6,"Dive into the fascinating world of our solar system, discovering the unique characteristics and mysteries of each planet. This course provides a comprehensive overview of the planets, their formation, and their role in the cosmic dance.",https://app.mindsmith.ai/course/cma5j0ogo00axpj0znkhhwvj2,wix:image://v1/f43741_7557fdac857b41b08e5ee9aa96299df5~mv2.jpg/Planets%20101%20_%20Planets%20Of%20Our%20Solar%20System%20.jpg#originWidth=1792&originHeight=1024,,,,,PUBLISHED,K-5,"http://<iframe src=""https://app.mindsmith.ai/course/cma5j0ogo00axpj0znkhhwvj2/learn"" style=""height: 700px; width: 1200px; max-height: 100%; max-width: 100%; border:none;"" allow=""fullscreen"" title=""Mindsmith Course Player""}""></iframe>",/science-1/,,,,,,,,,,,,,,,,,,,,,,,
+Mental Health Essentials,24e4d2df-d431-4c96-b559-72f77c078b46,2025-05-20T19:50:00Z,2025-05-20T19:51:38Z,f4374139-dd87-45da-b833-8f32e0bf93e6,"Gain fundamental knowledge about mental health and emotional wellbeing. This course explores common mental health challenges, self-care practices, and strategies for building psychological resilience in everyday life.","http://<iframe src=""https://app.mindsmith.ai/course/cmaor4a81016rjfx2xm85h0pz/learn"" style=""height: 700px; width: 1200px; max-height: 100%; max-width: 100%; border:none;"" allow=""fullscreen"" title=""Mindsmith Course Player""></iframe>",wix:image://v1/f43741_bada4f90ee7c4e0086a9e4859d0b20b9~mv2.jpg/Mental%20Health%20Essentials.jpg#originWidth=1792&originHeight=1024,,,2025-05-20T17:55:24Z,,PUBLISHED,,,,,,/life-skills-1/,,,,,,,,,,,,,,,,,,,,`;
+
+        // App state
+        let currentStep = 1;
+        let userProfile = {
+            age: '',
+            subjects: [],
+            goal: '',
+            time: ''
+        };
+
+        // Parse CSV data
+        function parseCSV(csv) {
+            const lines = csv.trim().split('\n');
+            const headers = lines[0].split(',');
+            const courses = [];
+
+            for (let i = 1; i < lines.length; i++) {
+                const values = parseCSVLine(lines[i]);
+                if (values.length === headers.length) {
+                    const course = {};
+                    headers.forEach((header, index) => {
+                        course[header.trim()] = values[index]?.trim() || '';
+                    });
+                    
+                    if (course.Status === 'PUBLISHED' && course.Title) {
+                        courses.push(course);
+                    }
+                }
+            }
+            return courses;
+        }
+
+        function parseCSVLine(line) {
+            const result = [];
+            let current = '';
+            let inQuotes = false;
+            
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    result.push(current);
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            result.push(current);
+            return result;
+        }
+
+        // Determine course category
+        function getCourseCategory(course) {
+            const categoryMappings = {
+                'TECHNOLOGY 2 (List)': 'technology',
+                'SCIENCE (List)': 'science',
+                'PARENTING (List)': 'parenting',
+                'MATH (List)': 'math',
+                'LIFE SKILLS (List)': 'life-skills',
+                'LANGUAGES (List)': 'languages',
+                'HUMANITIES (List)': 'humanities',
+                'HISTORY (List)': 'history',
+                'HEALTH (List)': 'health',
+                'FAITH (List)': 'faith',
+                'ENGLISH (List)': 'english',
+                'CAREERS (List)': 'careers',
+                'ART/MUSIC (List)': 'art-music'
+            };
+
+            for (const [csvColumn, category] of Object.entries(categoryMappings)) {
+                if (course[csvColumn] && course[csvColumn].trim()) {
+                    return category;
+                }
+            }
+            return 'other';
+        }
+
+        // Extract image URL
+        function extractImageUrl(banner) {
+            if (!banner) return 'https://via.placeholder.com/400x200?text=Course';
+            
+            if (banner.includes('wix:image://')) {
+                const match = banner.match(/wix:image:\/\/v1\/([^~]+)~mv2\.(jpg|jpeg|png)/);
+                if (match) {
+                    return `https://static.wixstatic.com/media/${match[1]}.${match[2]}`;
+                }
+            }
+            
+            if (banner.startsWith('http')) {
+                return banner;
+            }
+            
+            return 'https://via.placeholder.com/400x200?text=Course';
+        }
+
+        // Enhanced course recommendation algorithm
+        function recommendCourses(courses, profile) {
+            // Define keyword mappings for semantic matching
+            const semanticKeywords = {
+                'technology': ['computer', 'programming', 'coding', 'software', 'digital', 'AI', 'artificial intelligence', 'machine learning', 'quantum', 'algorithm', 'data', 'cyber', 'robotics', 'VR', 'AR', 'blockchain', 'crypto', 'automation', 'innovation'],
+                'science': ['biology', 'physics', 'chemistry', 'astronomy', 'geology', 'ecology', 'DNA', 'universe', 'atom', 'evolution', 'research', 'experiment', 'theory', 'discovery', 'laboratory', 'hypothesis', 'scientific'],
+                'math': ['algebra', 'geometry', 'calculus', 'statistics', 'probability', 'equation', 'theorem', 'mathematical', 'numeric', 'computation', 'formula', 'logic', 'problem solving'],
+                'parenting': ['child', 'parent', 'family', 'discipline', 'education', 'development', 'behavior', 'guidance', 'children', 'kids', 'mother', 'father', 'nurturing', 'child-rearing'],
+                'life-skills': ['negotiation', 'communication', 'leadership', 'productivity', 'time management', 'emotional', 'mental health', 'wellbeing', 'social', 'personal development', 'soft skills', 'interpersonal'],
+                'health': ['medical', 'wellness', 'fitness', 'nutrition', 'therapy', 'mental health', 'medicine', 'anatomy', 'physiology', 'healthcare', 'treatment', 'prevention', 'disease'],
+                'history': ['historical', 'ancient', 'civilization', 'culture', 'heritage', 'past', 'timeline', 'era', 'traditional', 'legacy', 'chronicle', 'ancestry'],
+                'art-music': ['creative', 'artistic', 'design', 'music', 'visual', 'aesthetic', 'composition', 'artistic expression', 'creativity', 'performance', 'cultural arts'],
+                'faith': ['spiritual', 'religious', 'belief', 'prayer', 'biblical', 'christian', 'faith-based', 'godly', 'kingdom', 'christ', 'scripture', 'devotional', 'stewardship', 'discipleship', 'ministry', 'worship', 'salvation', 'grace', 'redemption', 'church', 'gospel', 'divine', 'sacred', 'holy']
+            };
+
+            // Cross-category faith integration keywords
+            const faithIntegrationKeywords = {
+                'creation': ['science', 'faith'], 
+                'biblical worldview': ['faith', 'life-skills'],
+                'christian': ['faith'],
+                'stewardship': ['faith', 'life-skills'],
+                'kingdom values': ['faith', 'parenting'],
+                'christ-centered': ['faith', 'parenting'],
+                'biblical principles': ['faith', 'life-skills']
+            };
+
+            // Define difficulty indicators
+            const beginnerKeywords = ['introduction', 'basics', 'fundamentals', 'beginner', 'explained', 'simple guide', 'overview'];
+            const intermediateKeywords = ['advanced', 'comprehensive', 'detailed', 'in-depth', 'mastery'];
+            const expertKeywords = ['expert', 'professional', 'complex', 'sophisticated', 'cutting-edge'];
+
+            let scored = courses.map(course => {
+                const category = getCourseCategory(course);
+                const title = course.Title.toLowerCase();
+                const description = (course.Description || '').toLowerCase();
+                const combinedText = `${title} ${description}`;
+                
+                let score = 0;
+                let matchReasons = [];
+
+                // 1. PRIMARY SUBJECT MATCH (Base: 100 points)
+                if (profile.subjects.includes(category)) {
+                    score += 100;
+                    matchReasons.push(`${category} interest`);
+                }
+
+                // 2. SEMANTIC KEYWORD MATCHING (0-80 points)
+                let semanticScore = 0;
+                for (const subject of profile.subjects) {
+                    if (semanticKeywords[subject]) {
+                        const keywords = semanticKeywords[subject];
+                        const matchedKeywords = keywords.filter(keyword => 
+                            combinedText.includes(keyword.toLowerCase())
+                        );
+                        
+                        if (matchedKeywords.length > 0) {
+                            const keywordScore = Math.min(matchedKeywords.length * 15, 80);
+                            semanticScore = Math.max(semanticScore, keywordScore);
+                            if (keywordScore > 30) {
+                                matchReasons.push(`related to ${subject}`);
+                            }
+                        }
+                    }
+                }
+                score += semanticScore;
+
+                // 3. AGE/LEVEL MATCHING (0-60 points)
+                const courseLevel = course.Level;
+                let levelScore = 0;
+                if (courseLevel) {
+                    if (profile.age === courseLevel) {
+                        levelScore = 60;
+                        matchReasons.push('perfect age match');
+                    } else if (profile.age === 'Adult') {
+                        if (['College', 'College & Beyond'].includes(courseLevel)) {
+                            levelScore = 45;
+                        } else if (courseLevel === '6-12') {
+                            levelScore = 20; // Adults can learn from any level
+                        } else if (courseLevel === 'K-5') {
+                            levelScore = 10;
+                        }
+                    } else if (profile.age === 'College' && courseLevel === 'College & Beyond') {
+                        levelScore = 40;
+                    } else if (profile.age === '6-12' && courseLevel === 'College') {
+                        levelScore = 15; // Advanced students
+                    }
+                } else {
+                    // No level specified - neutral
+                    levelScore = 20;
+                }
+                score += levelScore;
+
+                // 4. DIFFICULTY vs AGE APPROPRIATENESS (0-40 points)
+                let difficultyScore = 0;
+                const hasBeginnerWords = beginnerKeywords.some(word => combinedText.includes(word));
+                const hasIntermediateWords = intermediateKeywords.some(word => combinedText.includes(word));
+                const hasExpertWords = expertKeywords.some(word => combinedText.includes(word));
+
+                if (profile.age === 'K-5' && hasBeginnerWords) difficultyScore = 40;
+                else if (profile.age === '6-12' && (hasBeginnerWords || hasIntermediateWords)) difficultyScore = 35;
+                else if (profile.age === 'College' && hasIntermediateWords) difficultyScore = 40;
+                else if (profile.age === 'Adult' && hasExpertWords) difficultyScore = 35;
+                else if (hasBeginnerWords) difficultyScore = 20; // Beginner-friendly is generally good
+
+                score += difficultyScore;
+
+                // 5. ENHANCED GOAL-BASED SCORING (0-60 points)
+                let goalScore = 0;
+                if (profile.goal === 'career') {
+                    if (['technology', 'life-skills', 'health'].includes(category)) goalScore += 40;
+                    if (combinedText.includes('career') || combinedText.includes('professional') || 
+                        combinedText.includes('industry') || combinedText.includes('job')) goalScore += 25;
+                } else if (profile.goal === 'academic') {
+                    if (['math', 'science', 'history', 'languages'].includes(category)) goalScore += 40;
+                    if (combinedText.includes('curriculum') || combinedText.includes('study') ||
+                        combinedText.includes('academic') || combinedText.includes('education')) goalScore += 25;
+                } else if (profile.goal === 'family') {
+                    if (category === 'parenting') goalScore += 50;
+                    if (category === 'faith') goalScore += 45; // High value for faith in family context
+                    if (['life-skills', 'health'].includes(category)) goalScore += 30;
+                    
+                    // Enhanced family + faith combinations
+                    if (combinedText.includes('family') && combinedText.includes('faith')) goalScore += 35;
+                    if (combinedText.includes('children') && combinedText.includes('godly')) goalScore += 30;
+                    if (combinedText.includes('parenting') && combinedText.includes('biblical')) goalScore += 30;
+                    if (combinedText.includes('discipline') && combinedText.includes('spiritual')) goalScore += 25;
+                    
+                    // General family terms
+                    if (combinedText.includes('family') || combinedText.includes('children') ||
+                        combinedText.includes('kids') || combinedText.includes('parent')) goalScore += 20;
+                } else if (profile.goal === 'personal') {
+                    if (['life-skills', 'health', 'art-music', 'faith'].includes(category)) goalScore += 40;
+                    if (combinedText.includes('personal') || combinedText.includes('self') ||
+                        combinedText.includes('mindfulness') || combinedText.includes('growth')) goalScore += 25;
+                }
+                
+                // Check for faith integration across categories
+                if (profile.subjects.includes('faith')) {
+                    for (const [keyword, categories] of Object.entries(faithIntegrationKeywords)) {
+                        if (combinedText.includes(keyword)) {
+                            if (categories.includes(category) || categories.includes('faith')) {
+                                goalScore += 25;
+                                matchReasons.push('faith integration');
+                                break;
+                            }
+                        }
+                    }
+                }
+                
+                score += Math.min(goalScore, 60);
+
+                // 6. TIME PREFERENCE MATCHING (0-30 points)
+                let timeScore = 0;
+                const hasTimeIndicators = title.match(/(\d+)\s*(minute|hour|day|week)/i);
+                
+                if (profile.time === 'short') {
+                    if (title.includes('minutes') || title.includes('quick') || title.includes('brief')) timeScore = 30;
+                    if (hasTimeIndicators && parseInt(hasTimeIndicators[1]) <= 30) timeScore = 25;
+                } else if (profile.time === 'medium') {
+                    if (hasTimeIndicators) {
+                        const timeValue = parseInt(hasTimeIndicators[1]);
+                        if (timeValue > 30 && timeValue <= 120) timeScore = 30;
+                    }
+                    if (title.includes('overview') || title.includes('introduction')) timeScore = 20;
+                } else if (profile.time === 'long') {
+                    if (title.includes('comprehensive') || title.includes('complete') || 
+                        title.includes('mastery') || title.includes('advanced')) timeScore = 30;
+                    if (hasTimeIndicators && parseInt(hasTimeIndicators[1]) > 60) timeScore = 25;
+                } else if (profile.time === 'flexible') {
+                    timeScore = 15; // Neutral bonus for flexibility
+                }
+                score += timeScore;
+
+                // 7. NEGATIVE SCORING for mismatches
+                let penalties = 0;
+                if (profile.age === 'K-5' && hasExpertWords) penalties += 30;
+                if (profile.age === 'Adult' && courseLevel === 'K-5' && !profile.subjects.includes('parenting')) penalties += 20;
+                
+                score = Math.max(0, score - penalties);
+
+                // 8. BONUS for exact title matches with interests
+                for (const subject of profile.subjects) {
+                    if (title.includes(subject.replace('-', ' '))) {
+                        score += 25;
+                        matchReasons.push('title keyword match');
+                        break;
+                    }
+                }
+
+                // Calculate final percentage (normalize to 0-100)
+                const maxPossibleScore = 385; // Theoretical maximum
+                const percentage = Math.min(Math.round((score / maxPossibleScore) * 100), 100);
+
+                return { 
+                    ...course, 
+                    score, 
+                    percentage,
+                    category,
+                    matchReasons: matchReasons.slice(0, 3) // Keep top 3 reasons
+                };
+            });
+            
+            // Sort by score
+            scored.sort((a, b) => b.score - a.score);
+            
+            // Enhanced variety enforcement with quality consideration
+            const result = [];
+            const categoryCount = {};
+            const minScoreThreshold = 20; // Only include courses with reasonable scores
+            
+            // First pass: Get the best matches
+            for (const course of scored) {
+                if (course.score >= minScoreThreshold && result.length < 12) {
+                    const cat = course.category;
+                    if (!categoryCount[cat]) categoryCount[cat] = 0;
+                    
+                    if (categoryCount[cat] < 4) { // Allow up to 4 per category for very good matches
+                        result.push(course);
+                        categoryCount[cat]++;
+                    }
+                }
+            }
+
+            // Second pass: Fill remaining slots with good variety
+            if (result.length < 12) {
+                for (const course of scored) {
+                    if (course.score >= 10 && !result.includes(course) && result.length < 12) {
+                        const cat = course.category;
+                        if (!categoryCount[cat]) categoryCount[cat] = 0;
+                        
+                        if (categoryCount[cat] < 2) {
+                            result.push(course);
+                            categoryCount[cat]++;
+                        }
+                    }
+                }
+            }
+            
+            return result.slice(0, 12);
+        }
+
+        // Create course card
+        function createCourseCard(course) {
+            const imageUrl = extractImageUrl(course.Banner);
+            const level = course.Level || '';
+            
+            return `
+                <div class="course-card bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+                    <div class="relative">
+                        <img 
+                            src="${imageUrl}" 
+                            alt="${course.Title}" 
+                            class="w-full h-48 object-cover"
+                            onerror="this.src='https://via.placeholder.com/400x200?text=Course'"
+                        >
+                        <div class="absolute top-3 left-3">
+                            <span class="px-2 py-1 text-xs font-semibold bg-primary text-white rounded-full">
+                                ${course.category.replace('-', ' ').toUpperCase()}
+                            </span>
+                        </div>
+                        ${level ? `
+                            <div class="absolute top-3 right-3">
+                                <span class="px-2 py-1 text-xs font-medium bg-gray-800 bg-opacity-75 text-white rounded-full">
+                                    ${level}
+                                </span>
+                            </div>
+                        ` : ''}
+                        <div class="absolute bottom-3 right-3">
+                            <span class="px-2 py-1 text-xs font-medium bg-green-500 text-white rounded-full">
+                                ${course.percentage}% Match
+                            </span>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg text-gray-900 dark:text-white mb-2 line-clamp-2">
+                            ${course.Title}
+                        </h3>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-3">
+                            ${course.Description || 'No description available.'}
+                        </p>
+                        ${course.matchReasons && course.matchReasons.length > 0 ? `
+                            <div class="mb-3">
+                                <div class="flex flex-wrap gap-1">
+                                    ${course.matchReasons.map(reason => `
+                                        <span class="px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full">
+                                            ${reason}
+                                        </span>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                        <button 
+                            class="inline-flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 text-sm font-medium rounded-lg transition-colors duration-200 w-full justify-center cursor-default"
+                            disabled
+                        >
+                            Course Preview
+                            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Update progress indicator
+        function updateProgressIndicator(step) {
+            document.querySelectorAll('.step-indicator').forEach((indicator, index) => {
+                const stepNum = index + 1;
+                indicator.classList.remove('active', 'completed');
+                
+                if (stepNum < step) {
+                    indicator.classList.add('completed');
+                } else if (stepNum === step) {
+                    indicator.classList.add('active');
+                }
+            });
+        }
+
+        // Show step
+        function showStep(step) {
+            document.querySelectorAll('.onboarding-step').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`step-${step}`).classList.remove('hidden');
+            updateProgressIndicator(step);
+        }
+
+        // Initialize app
+        function initApp() {
+            // Dark mode support
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.classList.add('dark');
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+                if (event.matches) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            });
+
+            const courses = parseCSV(csvData);
+            console.log(`Loaded ${courses.length} courses`);
+
+            // Step 1: Age selection
+            document.querySelectorAll('.age-option').forEach(button => {
+                button.addEventListener('click', () => {
+                    userProfile.age = button.dataset.age;
+                    currentStep = 2;
+                    showStep(currentStep);
+                });
+            });
+
+            // Step 2: Subject selection
+            document.querySelectorAll('.subject-option').forEach(button => {
+                button.addEventListener('click', () => {
+                    const subject = button.dataset.subject;
+                    if (userProfile.subjects.includes(subject)) {
+                        userProfile.subjects = userProfile.subjects.filter(s => s !== subject);
+                        button.classList.remove('border-primary', 'bg-primary', 'text-white');
+                        button.classList.add('border-gray-300', 'dark:border-gray-600');
+                    } else {
+                        userProfile.subjects.push(subject);
+                        button.classList.remove('border-gray-300', 'dark:border-gray-600');
+                        button.classList.add('border-primary', 'bg-primary', 'text-white');
+                    }
+                    
+                    const continueBtn = document.getElementById('continue-step-2');
+                    continueBtn.disabled = userProfile.subjects.length === 0;
+                });
+            });
+
+            document.getElementById('continue-step-2').addEventListener('click', () => {
+                currentStep = 3;
+                showStep(currentStep);
+            });
+
+            // Step 3: Goal selection
+            document.querySelectorAll('.goal-option').forEach(button => {
+                button.addEventListener('click', () => {
+                    userProfile.goal = button.dataset.goal;
+                    currentStep = 4;
+                    
+                    // Show different step based on age
+                    if (userProfile.age === 'K-5') {
+                        document.getElementById('step-4-kids').classList.remove('hidden');
+                        updateProgressIndicator(currentStep);
+                    } else if (userProfile.age === '6-12') {
+                        document.getElementById('step-4-teens').classList.remove('hidden');
+                        updateProgressIndicator(currentStep);
+                    } else if (userProfile.age === 'College') {
+                        document.getElementById('step-4-college').classList.remove('hidden');
+                        updateProgressIndicator(currentStep);
+                    } else if (userProfile.age === 'Adult') {
+                        document.getElementById('step-4-adults').classList.remove('hidden');
+                        updateProgressIndicator(currentStep);
+                    } else {
+                        showStep(currentStep);
+                    }
+                });
+            });
+
+            // Step 4A: Kids Questions (K-5)
+            document.getElementById('continue-step-4-kids').addEventListener('click', () => {
+                // Collect kids' answers
+                const answers = {};
+                document.querySelectorAll('.kids-answer').forEach(textarea => {
+                    const question = textarea.dataset.question;
+                    const answer = textarea.value.trim();
+                    if (answer) {
+                        answers[question] = answer;
+                    }
+                });
+                userProfile.kidsAnswers = answers;
+                
+                currentStep = 5;
+                showStep(currentStep);
+            });
+
+            // Step 4B: Teen Questions (6-12)
+            document.getElementById('continue-step-4-teens').addEventListener('click', () => {
+                // Collect teen answers
+                const answers = {};
+                document.querySelectorAll('.teens-answer').forEach(textarea => {
+                    const question = textarea.dataset.question;
+                    const answer = textarea.value.trim();
+                    if (answer) {
+                        answers[question] = answer;
+                    }
+                });
+                userProfile.teensAnswers = answers;
+                
+                currentStep = 5;
+                showStep(currentStep);
+            });
+
+            // Step 4C: College Questions (College)
+            document.getElementById('continue-step-4-college').addEventListener('click', () => {
+                // Collect college answers
+                const answers = {};
+                document.querySelectorAll('.college-answer').forEach(textarea => {
+                    const question = textarea.dataset.question;
+                    const answer = textarea.value.trim();
+                    if (answer) {
+                        answers[question] = answer;
+                    }
+                });
+                userProfile.collegeAnswers = answers;
+                
+                currentStep = 5;
+                showStep(currentStep);
+            });
+
+            // Step 4D: Adult Questions (Adult)
+            document.getElementById('continue-step-4-adults').addEventListener('click', () => {
+                // Collect adult answers
+                const answers = {};
+                document.querySelectorAll('.adults-answer').forEach(textarea => {
+                    const question = textarea.dataset.question;
+                    const answer = textarea.value.trim();
+                    if (answer) {
+                        answers[question] = answer;
+                    }
+                });
+                userProfile.adultsAnswers = answers;
+                
+                currentStep = 5;
+                showStep(currentStep);
+            });
+
+            // Step 5: Time commitment
+            document.querySelectorAll('.time-option').forEach(button => {
+                button.addEventListener('click', () => {
+                    userProfile.time = button.dataset.time;
+                    showResults(courses);
+                });
+            });
+
+            // Restart functionality
+            document.getElementById('restart-quiz').addEventListener('click', () => {
+                userProfile = { age: '', subjects: [], goal: '', time: '' };
+                currentStep = 1;
+                showStep(currentStep);
+                document.getElementById('results-section').classList.add('hidden');
+                
+                // Reset all selections
+                document.querySelectorAll('.subject-option').forEach(btn => {
+                    btn.classList.remove('border-primary', 'bg-primary', 'text-white');
+                    btn.classList.add('border-gray-300', 'dark:border-gray-600');
+                });
+                document.getElementById('continue-step-2').disabled = true;
+            });
+
+            // Free trial button functionality - redirect to existing Wix enrollment
+            document.getElementById('start-free-trial').addEventListener('click', () => {
+                // Log user profile data for analytics (optional)
+                console.log('User completed course recommendations:', {
+                    userProfile: userProfile,
+                    source: 'course-recommendations',
+                    timestamp: new Date().toISOString(),
+                    recommendations: document.getElementById('course-grid').children.length
+                });
+
+                // Redirect to your existing Wix enrollment page
+                // Replace with your actual Wix page URL, for example:
+                // window.top.location.href = 'https://yoursite.wix.com/enrollment';
+                window.top.location.href = 'YOUR_ENROLLMENT_URL';
+            });
+
+            function showResults(courses) {
+                document.querySelector('.container > .max-w-2xl').classList.add('hidden');
+                document.getElementById('results-section').classList.remove('hidden');
+                
+                // Simulate loading
+                setTimeout(() => {
+                    const recommendations = recommendCourses(courses, userProfile);
+                    
+                    document.getElementById('loading-recommendations').classList.add('hidden');
+                    document.getElementById('recommended-courses').classList.remove('hidden');
+                    
+                    const grid = document.getElementById('course-grid');
+                    grid.innerHTML = recommendations.map(createCourseCard).join('');
+                }, 1500);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+
+    <style>
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+</body>
+</html>
